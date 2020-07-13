@@ -1,6 +1,6 @@
 # Flutter指尖舞蹈：这个杀手不太冷——场景式学习Dart的多态和继承
 刻意练习的第二节课我们来看看Flutter(Dart)里面涉及的继承和多态。
-看过很多文章都无法准确理解Flutter中没有接口却又到处充斥着的隐形的接口概念，翻看Flutter源码发现组织解构跟Java代码也有显著区别，这和Flutter善用组合思想不无关系的，一旦代码规模庞大我们依然要依靠这些概念来管理代码，此处概念涉及的关键字还不少：
+看过很多文章都无法准确理解Flutter中没有接口却又到处充斥着的隐形的接口概念，翻看Flutter源码发现组织解构跟Java代码也有显著区别，这和Flutter善用组合思想不无关系的，一旦代码规模庞大我们依然要依靠这些概念来管理代码，此处概念涉及的关键字还不少：
 
 `class`、`extends`、`abstract`、`implements`、`mixin`、`with`、`on`、`super`、`this`
 # 基础概念
@@ -18,7 +18,7 @@ class Child extends Father{
 }
 ```
     
-相应地`super`调用父类的同名函数，`this`调用成员变量(存在同名时)指代自己，然而 Dart 中没有 `interface` 却独有的`implements`可以额外把`class`、`mixin` 的声明信息来复用，不论实现与否都统一看成是接口，巧妙就在于不设定重复概念，然而也着实让人容易混淆。
+相应地`super`调用父类的同名函数，`this`调用成员变量(存在同名时)指代自己，然而 Dart 中没有 `interface` 却独有的`implements`可以额外把`class`、`mixin` 的声明信息来复用，不论实现与否都统一看成是接口，巧妙就在于不设定重复概念，然而也着实让人容易混淆。
 
 ## 概念2: 可实例化内核class 华丽的衣裳mixin
 class 可实例化意味着可以有构造函数，可以为空构造函数，则子类也可以默认为空构造函数，而 mixin 不可以，mixin只能通过与class 搭配使用`with`来混入。这是 class 和 mixin 最本质的区别。
@@ -77,7 +77,7 @@ this is A
 
 > A->B->C->D
 
-然而隐藏的坑点还没有结束，当修改class A只有部分成员变量的定义时，B中的隐式getter函数被A覆盖，这就导致了虽然B中的函数被调用，但是打印的值依然是A中的。
+然而隐藏的坑点还没有结束，当修改class A只有部分成员变量的定义时，B中的隐式getter函数被A覆盖，这就导致了虽然B中的函数被调用，但是打印的值依然是A中的。
 ```
 class A extends D with C, B {
   get a => "this is A";
@@ -169,18 +169,18 @@ get a;
 
 实际上在java时代笔者喜欢贯彻另一种组合思想，那就是父类的实现尽量原子化拆分到小函数，这些函数不对外提供调用但是对子类开放重载和组合调用，所以他们往往是protected，达成的效果是子类的实现可以看成是一种新的组合，非常灵活和易于理解。
 
-然而这样的方式会导致父类(基类)成为各种实现的底层引擎，也丧失了其作为简单类型的灵活性。而 Dart中 `mixin` 关键字提供了一种更加灵活的方式，让你的组合不仅仅局限于同一个体系，例如Flutter中我们见了很多自成一派的 Mixin，他们往往跟UI无关，却不能独立运行，又具有可插拔配置简单的特性。
+然而这样的方式会导致父类(基类)成为各种实现的底层引擎，也丧失了其作为简单类型的灵活性。而Dart中 `mixin` 关键字提供了一种更加灵活的方式，让你的组合不仅仅局限于同一个体系，例如Flutter中我们见了很多自成一派的 Mixin，他们往往跟UI无关，却不能独立运行，又具有可插拔配置简单的特性。
 # 场景式练习
 下面我们来用杀手不太冷这个小游戏场景来作为讲解，故事背景采用同名电影。
 ## 基础设定
-设定Human(人类)为抽象基类，定义了基础体力值 *power* 来影响人类行为，因为人在休息时具有恢复行为，所以在基类中直接定义其实现：一次恢复增加5点体力。。
+设定Human(人类)为抽象基类，定义了基础体力值 *power* 来影响人类行为，因为人在休息时具有恢复行为，所以在基类中直接定义其实现：一次恢复增加5点体力。。
 ```
 abstract class Human {
   /// 体力值
   int power;
   Human(this.power);
 
-  /// 消耗体力值与他人互动，产生影响值
+  /// 消耗体力值与他人互动，产生影响值
   int act([List<Human> others]);
 
   /// 休息补充体力，因为仅关注自身，对周围的影响值为0
@@ -206,7 +206,7 @@ mixin SharpDamage {
   /// 定义体力损失
   int get powerloss;
 
-  /// 伤害检测，无实现体
+  /// 伤害检测，无实现体
   bool testKill(Human item);
 }
 
@@ -256,7 +256,7 @@ mixin RangeDamage on Human {
   }
 }
 ```
-根据最小影响原则，我们没有使用on Human在 SharpDamage上。
+根据最小影响原则，我们没有使用on Human在 SharpDamage上。
 ## 塑造角色
 ### 1.女主-从接口建立起一个完整的成长型杀手
 继承关系如下
@@ -351,7 +351,7 @@ class BladeKiller extends Human with SharpDamage, BladeDamage {
 ```
 这里重点强调一下BladeDamage 的顺位相比于 SharpDamage 更靠后，所以后者覆盖前者的定义。
 然而这里对调两者不会产生实际的意义，因为即便SharpDamage 在前也仅仅是全部声明，并不覆盖BladeDamage中的全部实现。
-补充完 **BladeKiller** 的实现如下：
+补充完 **BladeKiller** 的实现如下：
 ```
 /// 天才型精英杀手，直接通过Mixin获得能力
 class BladeKiller extends Human with SharpDamage, BladeDamage {
@@ -370,9 +370,9 @@ class BladeKiller extends Human with SharpDamage, BladeDamage {
 }
 ```
 #### 2.3 明目张胆的群攻AOE
-电影里黑警的手段是黑白通吃，搜查，逮捕，私闯民宅，只为逮到你，所以游戏里没有设置成固定的伤害方式，但是iterator.any函数定义了AOE的厉害之处，只要打中一个就算是打中了，电影中里昂大叔和小女孩儿组成了团队，一方被困另一方不会不管不顾，所以也才有了杀手不太冷的标题。
+电影里黑警的手段是黑白通吃，搜查，逮捕，私闯民宅，只为逮到你，所以游戏里没有设置成固定的伤害方式，但是iterator.any函数定义了AOE的厉害之处，只要打中一个就算是打中了，电影中里昂大叔和小女孩儿组成了团队，一方被困另一方不会不管不顾，所以也才有了杀手不太冷的标题。
 
-于是游戏中我们前两个类少写代码的经验最大化复用基础类Human，并赋予其群攻的Mixin，继承关系如下：
+于是游戏中我们前两个类少写代码的经验最大化复用基础类Human，并赋予其群攻的Mixin，继承关系如下：
 > class Bomber extends Human with RangeDamage {
 
 根据RangeDamage的定义要求我们需要设置length，从构造函数获得。
@@ -396,7 +396,7 @@ class Bomber extends Human with RangeDamage {
 ```
 
 ### 3. 构建游戏
-接下来我们来完成main函数以及游戏场景的搭建，两班人马一个精英杀手+成长型杀手团体，一个纯粹的AOE团体。
+接下来我们来完成main函数以及游戏场景的搭建，两班人马一个精英杀手+成长型杀手团体，一个纯粹的AOE团体。
 ```
 void main() {
   var alience = [
