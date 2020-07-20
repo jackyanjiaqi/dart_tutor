@@ -1,3 +1,4 @@
+/// mixin练习
 main() {
   A()
     ..log()

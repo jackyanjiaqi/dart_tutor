@@ -1,5 +1,6 @@
 import 'dart:math';
 
+/// Mixin 场景化实战
 abstract class Human {
   /// 体力值
   int power;
