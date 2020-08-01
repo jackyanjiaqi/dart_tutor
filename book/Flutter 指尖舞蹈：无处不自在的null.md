@@ -307,6 +307,7 @@ class D extends A {
   @override
   printExample() {
     print(example);
+    print(super.example);
   }
 }
 
