@@ -415,6 +415,8 @@ false
 | 获得运行时类型 | .runtimeType | .class | 关键字 typeof |
 | 类类型 | Type | Class | Object (prototype) |
 
+本例中使用 runtimeType 进行判断，原因是如果使用了is 判断是包含继承关系的，子类也可以判断是父类，也就是无法精确到具体类型上。
+
 在接下来的中篇中我们引入 dart 超强的 **泛型** 概念，并将目前构建出的《上帝要选接班人》场景进一步优化，关注我的专栏[《程序员跨界之美》](https://zhuanlan.zhihu.com/c_1256368460256694272)，敬请期待吧 ～
 
 ## 附录
